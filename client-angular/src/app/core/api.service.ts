@@ -5,26 +5,43 @@ import { environment } from 'src/environments/environment';
 import { Customer, FilePath } from '../shared/types';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ApiService {
-
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {}
 
     getCustomersList(): Observable<Array<Customer>> {
-        return this.http.get<Array<Customer>>(`${environment.serverUrl}/customers`);
+        return this.http.get<Array<Customer>>(
+            `${environment.serverUrl}/customers`
+        );
     }
 
-    getSortedCustomers(column: string, direction: string): Observable<Array<Customer>> {
-        return this.http.get<Array<Customer>>
-            (`${environment.serverUrl}/customers?column=${column}&sort=${direction}`);
+    getSortedCustomers(
+        column: string,
+        direction: string
+    ): Observable<Array<Customer>> {
+        return this.http.get<Array<Customer>>(
+            `${environment.serverUrl}/customers?column=${column}&sort=${direction}`
+        );
     }
 
     exportCustomers(): Observable<FilePath> {
-        return this.http.get<FilePath>(`${environment.serverUrl}/customers/export`);
+        return this.http.get<FilePath>(
+            `${environment.serverUrl}/customers/export`
+        );
     }
 
     findCustomer(searchTerm: string): Observable<Array<Customer>> {
-        return this.http.get<Array<Customer>>(`${environment.serverUrl}/customers/find?search=${searchTerm}`)
+        return this.http.get<Array<Customer>>(
+            `${environment.serverUrl}/customers/find?search=${searchTerm}`
+        );
+    }
+
+    addCustomer(customer: Customer): Observable<Customer> {
+        return this.http.post<Customer>(
+            `${environment.serverUrl}/customers`,
+            customer,
+            { headers: { 'Content-Type': 'application/json' } }
+        );
     }
 }

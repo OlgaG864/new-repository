@@ -5,13 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-    declarations: [
-        CustomersComponent,
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        SharedModule
-    ]
+    declarations: [CustomersComponent],
+    imports: [CommonModule, FormsModule, SharedModule],
 })
-export class CustomersModule { }
+export class CustomersModule {}

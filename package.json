@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "repository": {
-    "url": "https://github.com/levworkshop/royal-crm.git"
+    "url": "https://github.com/OlgaG864/royal_crm.git"
   },
   "scripts": {
     "start": "nodemon ./bin/www"

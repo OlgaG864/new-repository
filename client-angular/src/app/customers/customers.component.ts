@@ -1,4 +1,5 @@
 import { Component, NgModule, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../core/api.service';
 import { Customer, CustomerSort, FilePath, sortColumn } from '../shared/types';
@@ -6,32 +7,50 @@ import { Customer, CustomerSort, FilePath, sortColumn } from '../shared/types';
 @Component({
     selector: 'app-customers',
     templateUrl: './customers.component.html',
-    styleUrls: ['./customers.component.scss']
+    styleUrls: ['./customers.component.scss'],
 })
 export class CustomersComponent implements OnInit {
-
     customers!: Array<Customer>;
     searchFieldValue!: string;
     searchTerm!: string;
     tableSort!: CustomerSort;
 
-    constructor(private apiService: ApiService) { }
+    customerForm = new FormGroup({
+        name: new FormControl('', {
+            validators: Validators.required,
+        }),
+        email: new FormControl('', {
+            validators: [Validators.required],
+        }),
+        phone: new FormControl('', {
+            validators: Validators.required,
+        }),
+        country: new FormControl('', {
+            validators: Validators.required,
+        }),
+    });
+
+    onSumbit() {}
+
+    constructor(private apiService: ApiService) {}
 
     ngOnInit(): void {
         this.getCustomers();
 
         this.tableSort = {
             column: 'name',
-            dirAsc: true
+            dirAsc: true,
         };
     }
 
     getCustomers() {
         this.apiService.getCustomersList().subscribe({
-            next: (data: Array<Customer>) => { this.customers = data },
+            next: (data: Array<Customer>) => {
+                this.customers = data;
+            },
             error: (err) => console.error(err),
             // complete: () => console.log(`complete`)
-        })
+        });
     }
 
     customersTotal(): number {
@@ -44,7 +63,7 @@ export class CustomersComponent implements OnInit {
                 window.open(`${environment.serverUrl}/${data.name}`);
             },
             error: (err) => console.error(err),
-        })
+        });
     }
 
     findCustomer(event: KeyboardEvent) {
@@ -52,9 +71,11 @@ export class CustomersComponent implements OnInit {
 
         if (event.key === 'Enter' && value.length >= 3) {
             this.apiService.findCustomer(value).subscribe({
-                next: (data: Array<Customer>) => { this.customers = data },
+                next: (data: Array<Customer>) => {
+                    this.customers = data;
+                },
                 error: (err) => console.error(err),
-            })
+            });
         }
     }
 
@@ -66,8 +87,7 @@ export class CustomersComponent implements OnInit {
     sortCustomers(column: sortColumn) {
         if (this.tableSort.column === column) {
             this.tableSort.dirAsc = !this.tableSort.dirAsc;
-        }
-        else {
+        } else {
             this.tableSort.column = column;
             this.tableSort.dirAsc = true;
         }
@@ -75,9 +95,11 @@ export class CustomersComponent implements OnInit {
         const direction = this.tableSort.dirAsc ? 'ASC' : 'DESC';
 
         this.apiService.getSortedCustomers(column, direction).subscribe({
-            next: (data: Array<Customer>) => { this.customers = data },
-            error: (err) => console.error(err)
-        })
+            next: (data: Array<Customer>) => {
+                this.customers = data;
+            },
+            error: (err) => console.error(err),
+        });
     }
 
     displaySort(column: sortColumn): string {
