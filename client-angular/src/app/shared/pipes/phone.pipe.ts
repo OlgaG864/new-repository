@@ -4,9 +4,9 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'phone',
 })
 export class PhonePipe implements PipeTransform {
-    transform(value: string): string {
-        if (!value.includes('-')) {
-            return value;
+    transform(value?: string): string {
+        if (!value || !value.includes('-')) {
+            return '';
         }
 
         //02-3330000
