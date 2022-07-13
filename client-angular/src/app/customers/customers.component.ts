@@ -33,7 +33,7 @@ export class CustomersComponent implements OnInit {
         phone: new FormControl('', {
             validators: Validators.required,
         }),
-        country_id: new FormControl('', {
+        country_id: new FormControl(0, {
             validators: Validators.required,
         }),
     });
@@ -43,7 +43,14 @@ export class CustomersComponent implements OnInit {
             return;
         }
         const customer = this.customerForm.value;
-        //this.apiService.addCustomer(this.customerForm.value).subscribe
+        this.apiService.addCustomer(this.customerForm.value).subscribe({
+            next: (data: Customer) => {
+                this.getCustomers();
+                this.showForm = false;
+                this.customerForm.reset();
+            },
+            error: (err) => console.log(err),
+        });
     }
 
     toggleForm() {

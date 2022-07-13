@@ -16,7 +16,7 @@ module.exports = {
         .string()
         .required()
         .regex(/^[^@]+@[^@]+$/),
-      countryId: joi.number().required(),
+      country_id: joi.number().required(),
     });
 
     const { error, value } = schema.validate(reqBody);
@@ -31,7 +31,12 @@ module.exports = {
       " VALUES(?,?,?,?);";
 
     try {
-      const result = await database.query(sql, value);
+      const result = await database.query(sql, [
+        value.name,
+        value.phone,
+        value.email,
+        value.country_id,
+      ]);
 
       value.id = result[0].insertId;
       res.json(value);

@@ -68,7 +68,7 @@
                 <select formControlName="country_id" class="form-select">
                     <option
                         *ngFor="let country of countries"
-                        [value]="country.id"
+                        [ngValue]="country.id"
                     >
                         {{ country.name }}
                     </option>
