@@ -53,9 +53,10 @@ export class CustomersComponent implements OnInit {
         });
     }
 
-    notificationClosed(state: Boolean) {
+    notificationClosed(state: boolean) {
         this.showForm = false;
         this.customerForm.reset();
+        this.showNotification = state;
     }
 
     toggleForm() {
