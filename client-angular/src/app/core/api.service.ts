@@ -61,4 +61,10 @@ export class ApiService {
             `${environment.serverUrl}/products`
         );
     }
+
+    exportProducts(): Observable<FilePath> {
+        return this.http.get<FilePath>(
+            `${environment.serverUrl}/products/export`
+        );
+    }
 }
