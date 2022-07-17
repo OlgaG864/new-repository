@@ -37,4 +37,8 @@ export class ProductsComponent implements OnInit {
             error: (err) => console.error(err),
         });
     }
+
+    productsTotal(): number {
+        return this.products ? this.products.length : 0;
+    }
 }
