@@ -22,6 +22,7 @@ export class CustomersComponent implements OnInit {
     searchTerm!: string;
     tableSort!: CustomerSort;
     showForm = false;
+    showNotification = false;
 
     customerForm = new FormGroup({
         name: new FormControl('', {
@@ -46,11 +47,15 @@ export class CustomersComponent implements OnInit {
         this.apiService.addCustomer(this.customerForm.value).subscribe({
             next: (data: Customer) => {
                 this.getCustomers();
-                this.showForm = false;
-                this.customerForm.reset();
+                this.showNotification = true;
             },
             error: (err) => console.log(err),
         });
+    }
+
+    notificationClosed(state: Boolean) {
+        this.showForm = false;
+        this.customerForm.reset();
     }
 
     toggleForm() {

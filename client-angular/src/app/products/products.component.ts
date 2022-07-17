@@ -1,15 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { Product } from '../shared/types';
+import { ApiService } from '../core/api.service';
 
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.scss']
+    selector: 'app-products',
+    templateUrl: './products.component.html',
+    styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
+    products!: Array<Product>;
+    constructor(private apiService: ApiService) {}
 
-  constructor() { }
+    ngOnInit(): void {
+        this.getProducts();
+    }
 
-  ngOnInit(): void {
-  }
-
+    getProducts() {
+        this.apiService.getProductsList().subscribe({
+            next: (data: Array<Product>) => {
+                this.products = data;
+            },
+            error: (err) => console.error(err),
+            // complete: () => console.log(`complete`)
+        });
+    }
+    imagePath(img: string | null): string {
+        return !img ? '' : `../../assets/images/${img}`;
+    }
 }
