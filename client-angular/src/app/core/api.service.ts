@@ -8,12 +8,19 @@ import {
     AddCustomer,
     FilePath,
     Product,
+    Login,
+    User,
 } from '../shared/types';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ApiService {
+    private token = '';
+
+    setToken(value: string) {
+        this.token = value;
+    }
     constructor(private http: HttpClient) {}
 
     getCustomersList(): Observable<Array<Customer>> {
@@ -66,5 +73,17 @@ export class ApiService {
         return this.http.get<FilePath>(
             `${environment.serverUrl}/products/export`
         );
+    }
+
+    login(details: Login): Observable<User> {
+        return this.http.post<User>(`${environment.serverUrl}/login`, details, {
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
+
+    GET<T>(url: string): Observable<T> {
+        return this.http.get<T>(`${environment.serverUrl}/${url}`, {
+            headers: { 'x-auth-token': this.token },
+        });
     }
 }

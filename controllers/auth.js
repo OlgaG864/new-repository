@@ -26,10 +26,7 @@ module.exports = {
     try {
       const result = await database.query(sql, [value.email]);
       const user = result[0][0];
-      const validPassword = await bcrypt.compare(
-        value.password,
-        user.password_hash
-      );
+      const validPassword = await bcrypt.compare(value.password, user.password);
       if (!validPassword) throw "Invalid password";
 
       const param = { email: value.email };
