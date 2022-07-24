@@ -14,6 +14,7 @@ router.get("/signin", function (req, res, next) {
 });
 
 router.post("/login", auth.login);
+router.post("/register", auth.registerUser);
 
 router.get("/logout", mwAuth, function (req, res, next) {
   return res

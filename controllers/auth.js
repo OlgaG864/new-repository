@@ -26,19 +26,14 @@ module.exports = {
     try {
       const result = await database.query(sql, [value.email]);
       const user = result[0][0];
-      const validPassword = await bcrypt.compare(value.password, user.password);
+      const validPassword = await bcrypt.compare(
+        value.password,
+        user.password_hash
+      );
       if (!validPassword) throw "Invalid password";
 
       const param = { email: value.email };
       const token = jwt.sign(param, config.JWT_SECRET, { expiresIn: "72800s" });
-
-      // todo: use authorization header
-      // res
-      //     .cookie('access_token', token, {
-      //         httpOnly: true,
-      //         secure: true,
-      //     })
-      //     .send('Welcome, you are now logged in.');
 
       res.json({
         token: token,
@@ -51,6 +46,45 @@ module.exports = {
       console.log(`Error: ${err}`);
       res.status(401).send("Unauthorized");
       return;
+    }
+  },
+
+  registerUser: async function (req, res, next) {
+    const schema = joi.object({
+      first_name: joi.string().required().min(2).max(50),
+      last_name: joi.string().required().min(2).max(50),
+      email: joi.string().required().email().min(6).max(255),
+      password: joi.string().required().min(6).max(32),
+    });
+
+    const { error, value } = schema.validate(req.body);
+
+    if (error) {
+      console.log(error.details[0].message);
+      res.status(400).send("error sign up new user");
+      return;
+    }
+
+    const sql = `INSERT INTO users(first_name, last_name, email, password) VALUES(?,?,?,?)`;
+
+    try {
+      const hash = await bcrypt.hash(value.password, 10);
+      const result = await database.query(sql, [
+        value.first_name,
+        value.last_name,
+        value.email,
+        hash,
+      ]);
+
+      res.json({
+        id: result[0].insertId,
+        first_name: value.first_name,
+        last_name: value.last_name,
+        email: value.email,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.status(400).send("error sign up new user");
     }
   },
 };

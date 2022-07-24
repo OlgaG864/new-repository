@@ -33,9 +33,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.emailField.nativeElement.focus();
     }
 
-    onSumbit() {
-        //console.log(this.loginForm.value);
-        //console.log(this.loginForm.valid);
+    onSubmit() {
         if (!this.loginForm.valid) {
             return;
         }

@@ -3,20 +3,53 @@ import { Observable } from 'rxjs';
 import { Login, User } from '../shared/types';
 import { ApiService } from './api.service';
 import { tap } from 'rxjs/operators';
+import {
+    ActivatedRouteSnapshot,
+    CanActivateChild,
+    Router,
+    RouterStateSnapshot,
+    UrlTree,
+} from '@angular/router';
 
 @Injectable({
     providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements CanActivateChild {
     private readonly tokenField = 'token';
-    constructor(private apiService: ApiService) {}
+    redirectUrl: string | null = null; //store url after login
+    constructor(private router: Router, private apiService: ApiService) {}
+    canActivateChild(
+        childRoute: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): boolean | Promise<boolean> {
+        //is the user connected
+        if (this.isLoggedIn()) {
+            return true;
+        }
+        //store the attempted url for redirecting
+        this.redirectUrl = state.url;
+
+        return this.router.navigate(['login-component']);
+    }
+
+    isLoggedIn(): boolean {
+        const token = localStorage.getItem(this.tokenField);
+        return token && token.length > 0 ? true : false;
+    }
 
     login(details: Login): Observable<User> {
         return this.apiService.login(details).pipe(
             tap((data: User) => {
-                localStorage.setItem(this.tokenField, data.token);
-                this.apiService.setToken(data.token);
+                if (data.token) {
+                    localStorage.setItem(this.tokenField, data.token);
+                    this.apiService.setToken(data.token);
+                }
             })
         );
+    }
+
+    logout() {
+        localStorage.removeItem(this.tokenField);
+        this.apiService.setToken('');
     }
 }

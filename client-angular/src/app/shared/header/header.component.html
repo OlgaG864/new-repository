@@ -2,46 +2,93 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <i class="bi-cart-fill text-warning"></i>
-            {{brandName}}
+            {{ brandName }}
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-            aria-label="Toggle navigation">
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a routerLink="/home-component" routerLinkActive="active"
-                        ariaCurrentWhenActive="page" class="nav-link">Home</a>
+                    <a
+                        routerLink="/home-component"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page"
+                        class="nav-link"
+                        >Home</a
+                    >
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/customers-component" routerLinkActive="active"
-                        ariaCurrentWhenActive="page" class="nav-link">Customers</a>
+                    <a
+                        routerLink="/customers-component"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page"
+                        class="nav-link"
+                        >Customers</a
+                    >
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/products-component" routerLinkActive="active"
-                        ariaCurrentWhenActive="page" class="nav-link">Products</a>
+                    <a
+                        routerLink="/products-component"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page"
+                        class="nav-link"
+                        >Products</a
+                    >
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/orders-component" routerLinkActive="active"
-                        ariaCurrentWhenActive="page" class="nav-link">Orders</a>
+                    <a
+                        routerLink="/orders-component"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page"
+                        class="nav-link"
+                        >Orders</a
+                    >
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/signup-component" routerLinkActive="active"
-                        ariaCurrentWhenActive="page" class="nav-link">Sign Up</a>
+                    <a
+                        routerLink="/signup-component"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page"
+                        class="nav-link"
+                        >Sign Up</a
+                    >
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/login-component" routerLinkActive="active"
-                        ariaCurrentWhenActive="page" class="nav-link">Login</a>
+                    <a
+                        routerLink="/login-component"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page"
+                        class="nav-link"
+                        >Login</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a
+                        (click)="logout()"
+                        routerLinkActive="active"
+                        ariaCurrentWhenActive="page"
+                        class="nav-link"
+                        >Logout</a
+                    >
                 </li>
             </ul>
         </div>
         <ul class="d-flex navbar-nav">
             <li class="nav-item">
-                <span class="navbar-text">Hello {{userName | titlecase}}</span>
+                <span class="navbar-text"
+                    >Hello {{ userName | titlecase }}</span
+                >
                 <span class="navbar-text mx-3">|</span>
-                <span class="navbar-text">{{today | date}}</span>
+                <span class="navbar-text">{{ today | date }}</span>
             </li>
         </ul>
     </div>
