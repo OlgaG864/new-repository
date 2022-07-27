@@ -16,6 +16,7 @@ import { RegisterUser } from 'src/app/shared/types';
 })
 export class SignupComponent implements OnInit, AfterViewInit {
     @ViewChild('first') firstField!: ElementRef;
+    registerSuccess: boolean = false;
 
     signupForm = new FormGroup({
         first_name: new FormControl('', {
@@ -78,10 +79,12 @@ export class SignupComponent implements OnInit, AfterViewInit {
 
         this.apiService.register(details).subscribe({
             next: (data) => {
-                // todo: show message to user
-                console.log('registered');
+                this.registerSuccess = true;
             },
-            error: (err) => console.log(err),
+            error: (err) => {
+                this.registerSuccess = false;
+                console.log(err);
+            },
         });
     }
 }

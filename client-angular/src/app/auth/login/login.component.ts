@@ -6,6 +6,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth.service';
 
 @Component({
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         }),
     });
 
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
     ngOnInit(): void {}
 
@@ -39,6 +40,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
         }
 
         this.authService.login(this.loginForm.value).subscribe({
+            next: () => this.router.navigate(['/customers-component']),
+
             error: (err) => console.error(err),
         });
     }
